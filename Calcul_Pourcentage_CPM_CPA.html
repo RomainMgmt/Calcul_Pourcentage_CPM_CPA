@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculateur</title>
+    <style>
+          body {
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            color: #253335;
+            margin: 0;
+            padding: 0;
+        }
+
+        .calculator-container {
+            display: flex;
+        }
+
+        .calculator-column {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .calculator-section {
+            background-color: #253335;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+            margin-right: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+        }
+
+        label {
+            font-weight: bold;
+            color: #fff;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+       .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .input-group input[type="number"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #253335;
+            border-radius: 5px;
+            max-width: 150px; /* Largeur uniforme pour toutes les zones de saisie */
+        }
+
+        .input-group span {
+            margin-left: 10px;
+            margin-right: 10px;
+            color: #fff;
+        }
+
+        button {
+            
+            width: 200px;
+            padding: 10px;
+            background-color: #C6544A;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-container">
+        <div class="calculator-column">
+            <div class="calculator-section" id="percentageToNumber">
+                <h1>Calcul du % d'une valeur totale</h1>
+                <form>
+                    <label for="percentValue">Pourcentage :</label>
+                    <div class="input-group">
+                        <span style="color:#253335">%</span>
+                        <input type="number" id="percentValue" required>
+                        <span>%</span>
+                    </div>
+                    <label for="totalValue">Total :</label>
+                    <div class="input-group">
+                        <input type="number" id="totalValue" required>
+                    </div>
+                    <button type="button" onclick="calculate('percentageToNumber')">Calculer</button>
+                    <div class="result" id="result_percentageToNumber"></div>
+                </form>
+            </div>
+
+            <div class="calculator-section" id="numberToPercentage">
+                <h1>Calcul du % d'une valeur sur un total</h1>
+                <form>
+                    <label for="numericValue">Valeur :</label>
+                    <div class="input-group">
+                        <input type="number" id="numericValue" required>
+                    </div>
+                    <label for="totalValue2">Total:</label>
+                    <div class="input-group">
+                        <input type="number" id="totalValue2" required>
+                    </div>
+                    <button type="button" onclick="calculate('numberToPercentage')">Calculer</button>
+                    <div class="result" id="result_numberToPercentage"></div>
+                </form>
+            </div>
+
+            <div class="calculator-section" id="increaseDecrease">
+                <h1>Calcul d'une valeur après un % d'évolution</h1>
+                <form>
+                    <label for="startValue">Valeur de départ :</label>
+                    <div class="input-group">
+                        <input type="number" id="startValue" required>
+                    </div>
+                    <label for="percentageChange">Pourcentage de changement :</label>
+                    <div class="input-group">
+                        <span style="color:#253335">%</span>
+                        <input type="number" id="percentageChange" required>
+                        <span>%</span>
+                    </div>
+                    <button type="button" onclick="calculate('increaseDecrease')">Calculer</button>
+                    <div class="result" id="result_increaseDecrease"></div>
+                </form>
+            </div>
+
+            <div class="calculator-section" id="percentageChange">
+                <h1>Calcul du % d'évolution entre deux valeurs</h1>
+                <form>
+                    <label for="initialValue">Valeur initiale :</label>
+                    <div class="input-group">
+                        <input type="number" id="initialValue" required>
+                    </div>
+                    <label for="finalValue">Valeur finale :</label>
+                    <div class="input-group">
+                        <input type="number" id="finalValue" required>
+                    </div>
+                    <button type="button" onclick="calculate('percentageChange')">Calculer</button>
+                    <div class="result" id="result_percentageChange"></div>
+                </form>
+            </div>
+        </div>
+
+        <div class="calculator-column">
+            <div class="calculator-section" id="costPer1000">
+                <h1>Calcul du CPM à partir<br>
+                    du budget et des impressions </h1>
+                <form>
+                    <label for="costValue">Budget :</label>
+                    <div class="input-group">
+                        <span style="color:#253335">€</span>
+                        <input type="number" id="costValue" required>
+                        <span>€</span>
+                    </div>
+                    <label for="impressionsValue">Nombre d'impressions :</label>
+                    <div class="input-group">
+                        <span style="color:#253335">impressions</span>
+                        <input type="number" id="impressionsValue" required>
+                        <span>impressions</span>
+                    </div>
+                    <button type="button" onclick="calculate('costPer1000')">Calculer</button>
+                    <div class="result" id="result_costPer1000"></div>
+                </form>
+            </div>
+
+            <div class="calculator-section" id="costFromCPM">
+                <h1>Calcul du budget à partir<br>
+                    du CPM et des impressions</h1>
+                <form>
+                    <label for="cpmValue">CPM :</label>
+                    <div class="input-group">
+                        <span style="color:#253335">€ pour 1000 impressions</span>
+                        <input type="number" id="cpmValue" required>
+                        <span>€ pour 1000 impressions</span>
+                    </div>
+                    <label for="impressionsValue2">Nombre d'impressions :</label>
+                    <div class="input-group">
+                        <span style="color:#253335">impressions</span>
+                        <input type="number" id="impressionsValue2" required>
+                        <span>impressions</span>
+                    </div>
+                    <button type="button" onclick="calculate('costFromCPM')">Calculer</button>
+                    <div class="result" id="result_costFromCPM"></div>
+                </form>
+            </div>
+
+            <div class="calculator-section" id="impressionFromBudget">
+                <h1>Calcul du nombre d'impressions à partir<br>
+                    du budget et du CPM</h1>
+                <form>
+                    <label for="budgetValue">Budget total :</label>
+                    <div class="input-group">
+                        <span style="color:#253335">€</span>
+                        <input type="number" id="budgetValue" required>
+                        <span>€</span>
+                    </div>
+                    <label for="cpmValue2">CPM :</label>
+                    <div class="input-group">
+                        <span style="color:#253335">€ pour 1000 impressions</span>
+                        <input type="number" id="cpmValue2" required>
+                        <span>€ pour 1000 impressions</span>
+                    </div>
+                    <button type="button" onclick="calculate('impressionFromBudget')">Calculer</button>
+                    <div class="result" id="result_impressionFromBudget"></div>
+                </form>
+            </div>
+        </div>
+
+        <div class="calculator-column">
+            <div class="calculator-section" id="costPerClick">
+                <h1>Calcul du CPA à partir<br>
+                    du budget et des actions</h1>
+                <form>
+                    <label for="costValueCPC">Budget total :</label>
+                    <div class="input-group">
+                        <span style="color:#253335">€</span>
+                        <input type="number" id="costValueCPC" required>
+                        <span>€</span>
+                    </div>
+                    <label for="clicksValue">Nombre total d'actions :</label>
+                    <div class="input-group">
+                        <span style="color:#253335">actions</span>
+                        <input type="number" id="clicksValue" required>
+                        <span>actions</span>
+                    </div>
+                    <button type="button" onclick="calculate('costPerClick')">Calculer</button>
+                    <div class="result" id="result_costPerClick"></div>
+                </form>
+            </div>
+
+            <div class="calculator-section" id="costFromCPC">
+                <h1>Calcul du budget à partir<br>
+                    du nombre d'actions et du CPA</h1>
+                <form>
+                    <label for="cpcValue">CPA :</label>
+                    <div class="input-group">
+                        <span style="color:#253335">€ par action</span>
+                        <input type="number" id="cpcValue" required>
+                        <span>€ par action</span>
+                    </div>
+                    <label for="clicksValue2">Nombre total d'actions :</label>
+                    <div class="input-group">
+                        <span style="color:#253335">actions</span>
+                        <input type="number" id="clicksValue2" required>
+                        <span>actions</span>
+                    </div>
+                    <button type="button" onclick="calculate('costFromCPC')">Calculer</button>
+                    <div class="result" id="result_costFromCPC"></div>
+                </form>
+            </div>
+
+            <div class="calculator-section" id="clicksFromBudget">
+                <h1>Calculs du nombre d'actions à partir<br>
+                    du budget et du CPA</h1>
+                <form>
+                    <label for="budgetValue2">Budget total :</label>
+                    <div class="input-group">
+                        <span style="color:#253335">€</span>
+                        <input type="number" id="budgetValue2" required>
+                        <span>€</span>
+                    </div>
+                    <label for="cpcValue2">CPA :</label>
+                    <div class="input-group">
+                        <span style="color:#253335">€ par action</span>
+                        <input type="number" id="cpcValue2" required>
+                        <span>€ par action</span>
+                    </div>
+                    <button type="button" onclick="calculate('clicksFromBudget')">Calculer</button>
+                    <div class="result" id="result_clicksFromBudget"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function formatNumber(number) {
+        // Cette fonction formate le nombre en chaîne de caractères sans .00 si les décimales sont nulles.
+        const formattedNumber = Number.isInteger(number) ? String(number) : number.toFixed(2);
+        return formattedNumber;
+    }
+
+    function calculate(operation) {
+        let result;
+        
+        switch (operation) {
+            case 'percentageToNumber':
+                const percentValue = parseFloat(document.getElementById('percentValue').value);
+                const totalValue = parseFloat(document.getElementById('totalValue').value);
+                result = (percentValue / 100) * totalValue;
+                document.getElementById('result_percentageToNumber').innerText = `${percentValue}% de ${totalValue} est égal à ${formatNumber(result)}`;
+                break;
+
+            case 'numberToPercentage':
+                const numericValue = parseFloat(document.getElementById('numericValue').value);
+                const totalValue2 = parseFloat(document.getElementById('totalValue2').value);
+                result = (numericValue / totalValue2) * 100;
+                document.getElementById('result_numberToPercentage').innerText = `${formatNumber(numericValue)} est égal à ${formatNumber(result)}% de ${totalValue2}`;
+                break;
+
+            case 'increaseDecrease':
+                const startValue = parseFloat(document.getElementById('startValue').value);
+                const percentageChange = parseFloat(document.getElementById('percentageChange').value);
+                result = startValue + (startValue * (percentageChange / 100));
+                document.getElementById('result_increaseDecrease').innerText = `${formatNumber(startValue)} plus ${formatNumber(percentageChange)}% est égal à ${formatNumber(result)}`;
+                break;
+
+            case 'percentageChange':
+                const initialValue = parseFloat(document.getElementById('initialValue').value);
+                const finalValue = parseFloat(document.getElementById('finalValue').value);
+                result = ((finalValue - initialValue) / initialValue) * 100;
+                document.getElementById('result_percentageChange').innerText = `La variation en pourcentage de ${formatNumber(initialValue)} à ${formatNumber(finalValue)} est de ${formatNumber(result)}%`;
+                break;
+
+            case 'costPer1000':
+                const costValue = parseFloat(document.getElementById('costValue').value);
+                const impressionsValue = parseFloat(document.getElementById('impressionsValue').value);
+                result = (costValue / impressionsValue) * 1000;
+                document.getElementById('result_costPer1000').innerText = `Le coût pour 1000 impressions est de ${formatNumber(result)}€`;
+                break;
+
+            case 'costFromCPM':
+                const cpmValue = parseFloat(document.getElementById('cpmValue').value);
+                const impressionsValue2 = parseFloat(document.getElementById('impressionsValue2').value);
+                result = cpmValue * (impressionsValue2 / 1000);
+                document.getElementById('result_costFromCPM').innerText = `Le budget pour ${impressionsValue2} impressions avec un CPM de ${formatNumber(cpmValue)}€ est égal à ${formatNumber(result)}€`;
+                break;
+
+            case 'impressionFromBudget':
+                const budgetValue = parseFloat(document.getElementById('budgetValue').value);
+                const cpmValue2 = parseFloat(document.getElementById('cpmValue2').value);
+                result = (budgetValue / cpmValue2) * 1000;
+                document.getElementById('result_impressionFromBudget').innerText = `Le nombre total d'impressions pour un budget de ${formatNumber(budgetValue)}€ avec un CPM de ${formatNumber(cpmValue2)}€ pour 1000 impressions est de ${formatNumber(result)} impressions`;
+                break;
+
+            case 'costPerClick':
+                const costValueCPC = parseFloat(document.getElementById('costValueCPC').value);
+                const clicksValue = parseFloat(document.getElementById('clicksValue').value);
+                result = costValueCPC / clicksValue;
+                document.getElementById('result_costPerClick').innerText = `Le coût par action  pour ${formatNumber(costValueCPC)}€ et ${formatNumber(clicksValue)} actions est de ${formatNumber(result)}€ par action`;
+                break;
+
+            case 'costFromCPC':
+                const cpcValue = parseFloat(document.getElementById('cpcValue').value);
+                const clicksValue2 = parseFloat(document.getElementById('clicksValue2').value);
+                result = cpcValue * clicksValue2;
+                document.getElementById('result_costFromCPC').innerText = `Le budget pour ${formatNumber(clicksValue2)} actions avec un CPA de ${formatNumber(cpcValue)}€ est égal à ${formatNumber(result)}€`;
+                break;
+
+            case 'clicksFromBudget':
+                const budgetValue2 = parseFloat(document.getElementById('budgetValue2').value);
+                const cpcValue2 = parseFloat(document.getElementById('cpcValue2').value);
+                result = budgetValue2 / cpcValue2;
+                document.getElementById('result_clicksFromBudget').innerText = `Le nombre d'actions avec un budget de ${formatNumber(budgetValue2)}€ et un CPC de ${formatNumber(cpcValue2)}€ est de ${formatNumber(result)} actions`;
+                break;
+
+            default:
+                break;
+        }
+    }
+</script>
+</body>
+</html>
